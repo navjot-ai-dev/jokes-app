@@ -7,7 +7,6 @@ const App = () => {
 
    const jokes = async() =>{
           let joke =await axios.get(' https://official-joke-api.appspot.com/random_joke')
-          console.log(joke.data);
           
           setque(joke.data.setup)
           setans(joke.data.punchline)
