@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import axios from 'axios'
 
 const App = () => {
@@ -9,11 +9,25 @@ const App = () => {
    const jokes = async() =>{
           let joke =await axios.get(' https://official-joke-api.appspot.com/random_joke')
           
+          
           setque(joke.data.setup)
           setans(joke.data.punchline)
           settype(joke.data.type)
 
    }
+
+   useEffect(() => {
+      const handleKeyDown = (e) => {
+         if (e.key === 'Enter') {
+            jokes()
+         }
+      }
+
+      window.addEventListener('keydown', handleKeyDown)
+
+      // cleanup so we don't stack listeners on re-render
+      return () => window.removeEventListener('keydown', handleKeyDown)
+   }, [])
 
   return (
   <div className="bg-[url('https://img.magnific.com/free-vector/emoji-summer-background_79603-1589.jpg?semt=ais_hybrid&w=740&q=80')] bg-cover bg-center h-screen flex justify-center items-center">
@@ -29,7 +43,8 @@ const App = () => {
               <div className='flex justify-center items-center'>
                  <button
         className='bg-amber-700 h-15 w-fit py-3 px-6 rounded-3xl text-amber-50 font-bold active:opacity-70'
-        onClick={jokes}>get joke</button>
+        onClick={jokes}
+        >get joke</button>
               </div>
 
        </div>
